@@ -18,7 +18,7 @@ export class ExampleComponent {
         .subscribe(() => {
           this.onSubmit();
         });
-    }
+    } 
 
     this.submitClick$.next();
   }
