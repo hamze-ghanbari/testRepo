@@ -1,0 +1,143 @@
+
+<div class="md:hidden absolute top-0 left-0 bg-transparent w-full h-full z-20  opacity-30" 
+[ngClass]="{'!hidden': sidebarClose}" (click)="closeSidebar()"></div>
+<nav class="absolute lg:fixed top-0 h-full w-[260px]  bg-neutral-50 transition-all duration-500  z-50 md:shadow-[rgba(0,0,0,0.12)_-2px_3px_12px_3px]"
+    [ngClass]="{'!w-0 md:!w-[80px]': sidebarClose, 'right-0' : direction == 'rtl', 'left-0' : direction == 'ltr' }">
+    <header class="relative p-4 pb-3">
+      <div class="flex items-center" [ngClass]="{'justify-center': sidebarClose}">
+ 
+        <a routerLink="/" class="min-w-12 flex items-center justify-center">
+
+          <img src="{{'logoSuperAdminDesktop' | image}}" alt="logo" 
+            class="md:!opacity-100 w-9 h-8 transition-all duration-300"
+            [ngClass]="{'max-md:!w-0 opacity-0' : sidebarClose}" />
+
+        </a>
+
+        <div
+          class="font-medium text-neutral-900 whitespace-nowrap transition-all duration-300 flex flex-col rtl:pr-2 ltr:pl-2"
+          [ngClass]="sidebarClose ? 'w-0 opacity-0' : 'w-fit opacity-100'">
+          <span class="font-extrabold text-xl md:text-2xl text-neutral-900 ">{{'general.SAINA' | translate}}</span>
+        </div>
+      </div>
+
+      <div class="mt-5 flex flex-col items-center justify-center relative" [ngClass]="{'hidden': sidebarClose}">
+        <input type="search" #search (input)="searchSidebar(search.value)"
+        class="w-full h-10 rounded-md border border-neutral-300 p-2 outline-none text-neutral-400" [placeholder]="'ag_grid.SEARCHOOO' | translate" />
+        <div class="absolute w-full h-48 bg-white z-10 top-full p-2 flex flex-col gap-y-2 overflow-y-auto shadow-lg rounded-md"
+        [ngClass]="{'!hidden' : !finalSearchList.length}">
+          @for (item of finalSearchList; track $index) {
+          <a class="cursor-pointer flex justify-between items-center transition-all duration-300 rounded-md w-full min-h-10 border-b border-transparent group  bg-primary-50 pl-2"
+             (click)="goTo(item);finalSearchList = [];search.value = ''">
+            <div class="flex items-center" [ngClass]="{'w-full': !sidebarClose}">
+             <span [appIcon]="item.icon" class="text-xl md:text-2xl !flex items-center justify-center mx-2 text-neutral-600 group-hover:text-primary-700"></span>
+              <span class="max-md:text-sm text-neutral-600 font-medium whitespace-nowrap transition-all duration-300 group-hover:text-primary-700">{{item.name}}</span>
+            </div>
+          </a>
+        }
+        </div>
+      </div>
+
+    </header>
+    
+    <div class="h-[calc(100%-90px)] flex flex-col justify-between">
+      <span [appIcon]="!isMobile  ? direction == 'rtl' ? iconEnum.arrowRight : iconEnum.arrowLeft : sidebarClose ? iconEnum.menu : direction == 'rtl' ? iconEnum.arrowRight : iconEnum.arrowLeft" 
+       (click)="closeSidebar()"
+      class="text-xl cursor-pointer absolute  md:top-6 top-[1%] rtl:mr-3 ltr:ml-3 md:m-0 w-10 h-10 md:!h-[28px] md:!w-5 !flex items-center justify-center rounded-lg md:rounded-full  transition-all duration-300 select-none
+          md:rtl:-left-[12px] md:ltr:-right-[12px] md:shadow-[rgba(0,0,0,0.12)_1px_0px_8px_0px] bg-primary-400 border border-transparent text-white md:bg-neutral-50 md:text-neutral-900  max-md:bg-primary-50 max-md:text-primary-700" 
+          [ngClass]="{ '-rotate-180 max-md:!border-primary-100': sidebarClose, 'rtl:left-[5%] ltr:right-[5%]': !sidebarClose}"></span>
+      <ul
+        class="overflow-y-scroll scrollbar-none overflow-x-hidden h-[calc(100vh-140px)] px-1">
+        @for (item of list; track item.name; let i = $index) {
+        <!-- @if ((item.roles | role : userRoles) !== false) { -->
+        <li class="h-[30px] mt-2 list-none transition-all duration-500 px-3"
+        [ngClass]="{'!px-2': sidebarClose,}">
+          <a
+            class="cursor-pointer flex justify-between items-center hover:rtl:rounded-l-md hover:ltr:rounded-r-md transition-all duration-300 w-full h-full  group hover:bg-primary-50 pl-2 ltr:border-l-4 rtl:border-r-4  ltr:border-l-transparent rtl:border-r-transparent"
+             (click)="goTo(item)" [ngClass]="{'!border-b-neutral-200': !item.isActive || !item.child.length, 'ltr:!border-l-primary-500 rtl:!border-r-primary-500': item.isActive}">
+            <div class="flex items-center" [ngClass]="{'w-full': !sidebarClose}"
+             >
+             <span [appIcon]="item.icon" class="text-xl !flex items-center justify-center mx-2 text-neutral-400 group-hover:text-neutral-900"
+             [ngClass]="{ '!text-primary-500': item.isActive, '!w-full rtl:pr-2 ltr:pl-2': sidebarClose}"></span>
+  
+              <span
+                class="max-md:text-sm text-neutral-800 font-medium whitespace-nowrap transition-all duration-300 group-hover:text-neutral-900 select-none"
+                [ngClass]="{
+                    '!text-primary-500': item.isActive,
+                    '!opacity-0': sidebarClose
+                  }">{{ item.name}}</span>
+            </div>
+
+            @if(item.child.length > 0){
+              <span [appIcon]="item.child.length && item.child[0].child.length ? iconEnum.chevronsLeft : iconEnum.arrowLeft"  class="text-base text-neutral-400 group-hover:text-neutral-900 ltr:rotate-180"
+              [ngClass]="{'!text-primary-500 !-rotate-90': item.isActive}"></span>
+            }
+          </a>
+        </li>
+        @if(item.child.length > 0){
+          @for (child of item.child; track child.name; let i = $index) {
+            <!-- @if ((item.roles | role : userRoles) !== false) { -->
+            <li class="h-[30px] mt-2 list-none transition-all duration-500 px-3" 
+            [ngClass]="{'hidden': !item.isActive, '!px-2  md:!h-10': sidebarClose,}">
+              <a
+                class="cursor-pointer hover:rtl:rounded-l-md hover:ltr:rounded-r-md flex justify-between items-center transition-all duration-300 w-full h-full group hover:bg-primary-50 pl-2
+                ltr:border-l-2 rtl:border-r-2  ltr:border-l-transparent rtl:border-r-transparent" (click)="goTo(item, child)"
+                [ngClass]="{'!text-primary-500': child.isActive && child.child.length > 0, '!bg-primary-400 rounded-md': child.isActive && !child.child.length, 'border-b border-b-neutral-200': i == item.child.length - 1 && !child.child.length,
+                 'ltr:!border-l-primary-500 rtl:!border-r-primary-500': child.isActive
+                }">
+                <div class="flex items-center" [ngClass]="{'w-full': !sidebarClose}"
+                 >
+                 <span [appIcon]="child.icon"  class="text-xl !flex items-center justify-center mx-2  text-neutral-400 group-hover:text-neutral-900"
+                 [ngClass]="{  '!text-primary-500': child.isActive && child.child.length > 0, '!text-white': child.isActive && !child.child.length, '!w-full rtl:pr-2': sidebarClose}"></span>
+                  <span
+                    class="max-md:text-sm  whitespace-nowrap transition-all duration-300 text-neutral-800 group-hover:text-neutral-900 select-none"
+                    [ngClass]="{
+                      '!bg-primary-400 !text-white': child.isActive && !child.child.length,
+                       '!text-primary-500': child.isActive && child.child.length > 0,
+                        '!opacity-0': sidebarClose
+                      }">{{ child.name}}</span>
+                </div>
+
+                @if(child.child.length > 0){
+                  <span [appIcon]="iconEnum.arrowLeft"  class="text-base text-neutral-400 group-hover:text-neutral-900 ltr:rotate-180"
+                  [ngClass]="{'!text-primary-500': child.isActive && child.child.length > 0, '!bg-primary-400': child.isActive && !child.child.length, '!-rotate-90 ': child.isActive}"></span>
+                }
+              </a>
+            </li>
+
+            @if(child.child.length > 0){
+              <div class="px-1 border border-primary-70 bg-primary-50 mx-3 my-2 rounded-[4px]" [ngClass]="{
+                'hidden': !child.isActive
+              }">
+              @for (child2 of child.child; track child2.name; let  i = $index) {
+                <!-- @if ((item.roles | role : userRoles) !== false) { -->
+                <li class="h-[30px] mt-2 list-none transition-all duration-500" 
+                [ngClass]="{'hidden': !child.isActive, '!px-2  md:!h-10': sidebarClose, 'my-1': child2.isActive}">
+                <!-- {'!bg-primary-400': child2.isActive, 'border-b border-b-neutral-200': i == child.child.length - 1, 'rounded-md': child2.isActive} -->
+                  <a
+                    class="cursor-pointer hover:rounded-md flex justify-between items-center transition-all duration-300 w-full h-full  group hover:bg-primary-50 pl-2" (click)="goTo(item, child, child2)"
+                    [ngClass]="{'!bg-primary-400': child2.isActive, 'rounded-md': child2.isActive}">
+                    <div class="flex items-center" [ngClass]="{'w-full': !sidebarClose}"
+                     >
+                     <span [appIcon]="child2.icon"  class="text-xl !flex items-center justify-center mx-2  text-neutral-400 group-hover:text-neutral-900"
+                     [ngClass]="{  '!text-white': child2.isActive, '!w-full rtl:pr-2': sidebarClose}"></span>
+                      <span
+                        class="max-md:text-sm  whitespace-nowrap transition-all duration-300 text-neutral-800 group-hover:text-neutral-900 select-none"
+                        [ngClass]="{
+                            '!text-white': child2.isActive, 
+                            '!opacity-0': sidebarClose
+                          }">{{ child2.name}}</span>
+                    </div>
+                  </a>
+                </li>
+              }
+              </div>
+            }
+          }
+        }
+        <!-- } -->
+        }
+      </ul>
+    </div>
+  </nav>
+ 
