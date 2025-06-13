@@ -1,0 +1,143 @@
+<div class="w-full h-full">
+    <div class="w-full h-full bg-primary-10 rounded-lg border-2 border-dashed border-primary-200 flex justify-center items-center cursor-pointer overflow-y-auto"
+        (click)="upload.click()">
+        <div class="w-full  flex flex-col justify-between items-center"
+            [ngClass]="{'h-32': !singleFile, 'h-4/5 gap-y-4': singleFile, '!justify-center': !config.multiple && singleFile}">
+            @if(config.multiple || !singleFile){
+            <div class="relative w-10 h-10">
+                <span [appIcon]="icons.file" class="text-primary-300 text-[40px]"></span>
+                <span [appIcon]="icons.add"
+                    class="flex items-center justify-center absolute w-5 h-5 rounded-full -bottom-2 right-0 bg-primary-100 text-primary-500"></span>
+            </div>
+            <span class="text-xs text-neutral-700">{{'general.MAXIMUM' | translate}}
+                {{config.maxSize}}</span>
+            <div
+                class="h-10 min-w-1/2 w-fit px-3 text-sm text-neutral-800 bg-primary-100 rounded-lg flex items-center justify-center">
+                {{'general.UPLOAD' | translate}}
+                {{config.label
+                | translate}}</div>
+            }@else {
+
+            <!-- <img [src]="singleFile.preview" class="w-[166px] h-[148px] rounded-sm" /> -->
+            @switch (singleFile.format) {
+            @case ('csv') {
+            <span [appIcon]="icons.csv" class="text-success-700 flex text-[60px] md:text-[120px]"></span>
+            }
+            @case ('xls') {
+            <span [appIcon]="icons.xls" class="text-success-700 flex text-[60px] md:text-[120px]"></span>
+            }
+            @case ('xlsx') {
+            <span [appIcon]="icons.xls" class="text-success-700 flex text-[60px] md:text-[120px]"></span>
+            }
+            @case ('doc') {
+            <span [appIcon]="icons.doc" class="text-info-500 flex text-[60px] md:text-[120px]"></span>
+            }
+            @case ('docx') {
+            <span [appIcon]="icons.docx" class="text-info-500 flex text-[60px] md:text-[120px]"></span>
+            }
+            @case ('pdf') {
+            <span [appIcon]="icons.pdf" class="text-error-700 flex text-[60px] md:text-[120px]"></span>
+            }
+            @case ('txt') {
+            <span [appIcon]="icons.txt" class="text-neutral-400 flex text-[60px] md:text-[120px]"></span>
+            }
+            @default {
+            @if(imageSource() || image){
+            <!-- w-24 h-20 md:w-[166px] md:h-[148px] -->
+            <img [src]="imageSource() ?? image" class="w-1/3 h-3/5 rounded-sm" alt="image" />
+            <span [appIcon]="icons.delete"
+                class="flex items-center justify-center text-xl cursor-pointer bg-primary-50 text-error-700 !w-9 min-h-9 !h-9 rounded-lg"
+                (click)="deleteSingleImage($event, singleFile)"></span>
+            }@else {
+            <!-- <img src="{{'unknownFile' | image}}"  class="w-1/3 h-3/5 rounded-sm"
+                        alt="unknown file" /> -->
+            }
+            }
+            }
+            <!-- @if(singleFile.format !== 'png' && singleFile.format !== 'jpg' && singleFile.format !== 'jpeg'){
+            <span [appIcon]="icons.delete"
+                class="flex items-center justify-center text-xl cursor-pointer bg-primary-50 text-error-700 !w-9 min-h-9 !h-9 rounded-lg"
+                (click)="deleteSingleImage($event, singleFile)"></span>
+            } -->
+            }
+        </div>
+        <input type="file" #upload class="hidden" #fileValue (blur)="onBlur()" (change)="onValueChanged($event)"
+            (click)="fileValue.value = ''" />
+
+    </div>
+
+    @for (item of field.errors | showError : (config.label | translate); track $index) {
+    <!-- @if (field.touched || field.dirty) { -->
+    <div class="text-error-900 text-xs flex items-center gap-1 my-1">
+        {{item}}
+    </div>
+    <!-- } -->
+    }
+
+    <!-- max height -->
+    @if(config.multiple){
+    <div class="w-full flex flex-col">
+        @for (item of files; track $index) {
+
+        <div
+            class="w-full h-12 flex items-center justify-between px-4 bg-white border border-neutral-300 rounded-lg mt-2">
+            @if (item.isLoading) {
+            <div class="w-6 h-6">
+                <mat-spinner [diameter]="20"></mat-spinner>
+            </div>
+            }@else {
+            @if (item.status == 'success') {
+            <span [appIcon]="icons.delete" class="flex text-xl text-neutral-400 hover:text-primary-500 cursor-pointer"
+                (click)="deleteImage(item)"></span>
+            }@else {
+            <span [appIcon]="icons.refresh" class="flex text-xl text-primary-500 cursor-pointer"
+                (click)="refresh(item)"></span>
+            }
+            }
+            <div class="flex items-center gap-x-2">
+                <div class="flex flex-col gap-1 text-nowrap text-ellipsis overflow-hidden  max-w-40">
+                    <span class="text-sm text-neutral-500 ">{{item.name}}</span>
+                    <div class="text-xs text-neutral-400 gap-x-1 rtl:text-left ltr:text-right">
+                        <span>{{item.size | formatBytes}}</span>
+                        <!-- <span>80.28</span>
+                        <span>KB</span> -->
+                    </div>
+                </div>
+                <div class="w-8 h-8 rounded-md text-2xl flex items-center justify-center" [ngClass]="{
+                        'bg-success-50' : item.format == 'csv' || item.format == 'xls',
+                        'bg-primary-50' : item.format == 'pdf',
+                        'bg-neutral-100' : item.format == 'plain',
+                        'bg-info-50' : item.format == 'doc' || item.format == 'docx',
+                    }">
+                    @switch (item.format) {
+                    @case ('csv') {
+                    <span [appIcon]="icons.csv" class="text-success-700 flex"></span>
+                    }
+                    @case ('xls') {
+                    <span [appIcon]="icons.xls" class="text-success-700 flex"></span>
+                    }
+                    @case ('doc') {
+                    <span [appIcon]="icons.doc" class="text-info-500 flex"></span>
+                    }
+                    @case ('docx') {
+                    <span [appIcon]="icons.docx" class="text-info-500 flex"></span>
+                    }
+                    @case ('pdf') {
+                    <span [appIcon]="icons.pdf" class="text-primary-600 flex"></span>
+                    }
+                    @case ('txt') {
+                    <span [appIcon]="icons.txt" class="text-neutral-400 flex"></span>
+                    }
+                    @default {
+                    <img [src]="item.preview" class="w-8 h-8 rounded-sm" alt="image" />
+                    }
+                    }
+                </div>
+            </div>
+            <!-- <span [appIcon]="icons.refresh" class="text-2xl text-primary-500 cursor-pointer"></span> -->
+        </div>
+        }
+    </div>
+    }
+
+</div>

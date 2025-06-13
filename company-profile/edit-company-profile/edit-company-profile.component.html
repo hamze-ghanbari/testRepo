@@ -1,0 +1,212 @@
+<app-grid-layout [state]="'form'">
+  
+    @if (company) {
+        <form [formGroup]="companyForm" (ngSubmit)="submitCompanyInfo()" class="w-full h-full max-w-screen-2xl flex flex-col gap-y-4 md:gap-y-6 
+        justify-between">
+            <!-- <app-title class="w-full" [title]="'sidebar.COMPANY_PROFILE' | translate"></app-title> -->
+            
+            <div
+            class="h-full bg-neutral-50  rounded-lg md:rounded-xl flex flex-col justify-between">
+    
+            <div class="flex flex-col gap-y-4 h-[calc(100vh-156px)] md:h-[calc(100vh-180px)]  overflow-y-auto scrollbar-none">
+
+                <div class="w-full flex items-center justify-between">
+                    <app-title class="w-full" [title]="'sidebar.COMPANY_PROFILE' | translate"></app-title>
+                </div>
+
+                <div class="w-full flex flex-col gap-y-3 md:gap-y-4">
+
+                    <h3 class="text-neutral-700  max-md:text-sm font-bold">
+                        {{'general.BASIC_INFORMATION' |
+                        translate}}</h3>
+
+                    <div
+                        class="w-full grid grid-cols-1 md:grid-cols-2  gap-y-3 md:gap-y-4 gap-x-10 p-1">
+                        <div class="flex flex-col gap-y-3 md:gap-y-4">
+
+                            <app-input class="w-full" formControlName="primaryTitle"
+                                [field]="companyForm.controls['primaryTitle'] | formControl"
+                                [config]="{label :  'panel.company_profile.COMPANY_NAME' , required: true}"></app-input>
+
+                            <app-input class="w-full" formControlName="secondaryTitle"
+                                [field]="companyForm.controls['secondaryTitle'] | formControl"
+                                [config]="{label :  'panel.company_profile.COMPANY_NAME_IN_SECOND_LANGUAGE'}"></app-input>
+
+                            <app-select-box formControlName="companyType"
+                                [field]="companyForm.controls['companyType'] | formControl"
+                                [config]="{label: 'panel.company_profile.COMPANY_TYPE',  items: companyTypeList, required: true}"></app-select-box>
+
+                        </div>
+
+                        <div class="w-full flex items-start justify-center">
+                            <div class="w-full h-[154px] md:h-[176px]">
+                                <app-uploader formControlName="logoFile"
+                                    [field]="companyForm.controls['logoFile'] | formControl"
+                                    [config]="{label: 'panel.company_profile.COMPANY_TRADEMARK', maxSize: '2'+('general.MB' | translate)}"
+                                    [height]="198" [width]="458"></app-uploader>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="w-full flex flex-col gap-y-3 md:gap-y-4">
+                    <h3 class="text-neutral-700  max-md:text-sm font-bold">
+                        {{'panel.company_profile.COMPANY_REGISTRATION_INFORMATION' | translate}}</h3>
+
+                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3 md:gap-y-4 p-1">
+
+                        <app-input class="w-full" formControlName="taxIdNumber"
+                            [field]="companyForm.controls['taxIdNumber'] | formControl"
+                            [config]="{label :  'panel.company_profile.ECONOMIC_CODE'}"></app-input>
+
+                        <app-input class="w-full" formControlName="registrationNumber"
+                            [field]="companyForm.controls['registrationNumber'] | formControl"
+                            [config]="{label :  'panel.company_profile.REGISTRATION_NUMBER'}"></app-input>
+
+                        <app-input class="w-full" formControlName="nationalBusinessIdNumber"
+                            [field]="companyForm.controls['nationalBusinessIdNumber'] | formControl"
+                            [config]="{label :  'panel.company_profile.NATIONAL_ID'}"></app-input>
+
+                        <app-national-code class="w-full" formControlName="nationalIdNumber"
+                            [field]="companyForm.controls['nationalIdNumber'] | formControl"></app-national-code>
+                    </div>
+                </div>
+
+                <div class="w-full flex flex-col gap-y-3 md:gap-y-4">
+                    <h3 class="text-neutral-700  max-md:text-sm font-bold">
+                        {{'panel.company_profile.CONTACT_INFORMATION' |
+                        translate}} </h3>
+
+                    <div class="flex flex-col gap-y-6">
+                        <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3 md:gap-y-4 p-1">
+
+                            <app-input class="w-full" formControlName="phoneNumber"
+                                [field]="companyForm.controls['phoneNumber'] | formControl"
+                                [config]="{label :  'panel.company_profile.PHONE_NUMBER'}"></app-input>
+
+                            <app-phone-number class="w-full" formControlName="cellPhoneNumber"
+                                [hasIcon]="false"
+                                [field]="companyForm.controls['cellPhoneNumber'] | formControl"></app-phone-number>
+
+                            <app-input class="w-full" formControlName="faxNumber"
+                                [field]="companyForm.controls['faxNumber'] | formControl"
+                                [config]="{label :  'panel.company_profile.FAX'}"></app-input>
+
+                            <app-email class="w-full" formControlName="emailAddress" [hasIcon]="false"
+                                [field]="companyForm.controls['emailAddress'] | formControl"></app-email>
+
+                            <app-input class="w-full" formControlName="websiteURL"
+                                [field]="companyForm.controls['websiteURL'] | formControl"
+                                [config]="{label :  'panel.company_profile.WEBSITE_ADDRESS'}"></app-input>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="w-full flex items-center justify-end gap-x-3 border-t border-t-neutral-300 pt-2 md:pt-3">
+                    <app-cancel-btn  (click)="backToCompanyProfile()">
+                        {{'general.buttons.REFUSE' | translate}}
+                    </app-cancel-btn>
+
+                    <app-submit-btn class="max-md:w-full" [disabled]="companyForm.invalid || loading">
+                        @if (loading) {
+                            <app-loading></app-loading>
+                            }@else {
+                            {{'general.REGISTRATION' | translate}}
+                            }
+                    </app-submit-btn>
+
+            </div>
+
+        </div>
+
+
+    </form>
+
+    }
+       
+
+            <!-- <mat-tab [label]="'general.ADDRESSES'| translate">
+                <div class="w-full  pt-5 md:pt-6 flex flex-col justify-between gap-y-6">
+
+                    <form [formGroup]="addressForm" (ngSubmit)="submitAddress()"
+                        class="w-full h-full bg-neutral-50 flex flex-col gap-y-8 md:gap-y-14">
+
+                        <div
+                            class="w-full  md:max-h-[calc(100vh-304px)] max-h-[calc(100vh-250px)]  overflow-y-auto max-md:scrollbar-none flex flex-col pb-2 gap-y-4 md:gap-y-6">
+
+                            <div class="w-full flex flex-col gap-y-3 md:gap-y-4">
+
+                                <ng-container formArrayName="addresses">
+                                    @for (addForm of addresses.controls; track addForm; let i = $index;) {
+                                    <div class="w-full h-fit p-4 bg-neutral-50 flex flex-col gap-y-3 md:gap-y-4 border border-neutral-300 rounded-lg md:rounded-xl"
+                                        [formGroupName]="i">
+                                        <div class="w-full flex items-center justify-end" >
+                                            @if (i > 0) {
+                                            <span [appIcon]="icons.delete"
+                                                class="flex items-center justify-center text-xl text-error-700  w-9  rounded-lg  cursor-pointer"
+                                                (click)="deleteAddress(i)"></span>
+                                            }
+                                        </div>
+                                        <div class="w-full flex items-center max-md:flex-col gap-y-3 gap-x-4">
+                                            <app-select-box class="w-full" formControlName="branch"
+                                                [field]="(addresses.at(i) | formGroup).controls['branch'] | formControl"
+                                                [config]="{label: 'panel.company_profile.BRANCH',  items: branchItems}"></app-select-box>
+
+                                            <app-number class="w-full" formControlName="postalCode" [max]="10"
+                                                [field]="(addresses.at(i) | formGroup).controls['postalCode'] | formControl"
+                                                [config]="{label: 'general.forms.POSTAL_CODE', hideButton: true}"></app-number>
+                                        </div>
+                                        <div class="h-auto">
+                                        <app-text-area class="w-full h-28" formControlName="address"
+                                            [config]="{label: 'panel.company_profile.ADDRESS'}"
+                                            [field]="(addresses.at(i) | formGroup).controls['address'] | formControl"></app-text-area>
+                                        </div>
+
+                                    </div>
+                                    }
+                                </ng-container>
+
+                                @if (addresses.valid) {
+                                <div class="w-full h-32 text-neutral-400 border border-neutral-300 bg-neutral-100 flex items-center justify-center gap-x-1 rounded-lg md:rounded-xl" >
+                                   <div class="w-fit cursor-pointer p-3 border border-neutral-400 rounded-lg bg-pure-white flex items-center justify-center" (click)="addNewAddress()">
+                                    <span [appIcon]="icons.add"
+                                    class="flex text-xl"></span>
+                                <span class="text-sm font-medium">{{'panel.company_profile.ADD_ADDRESS'
+                                    | translate}}</span>
+                                   </div>
+                                </div>
+                            }
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="w-full flex items-center justify-end">
+                            <div class="w-full md:w-[364px] flex items-center gap-x-3">
+                                <app-cancel-btn class="w-full" (click)="backToCompanyProfile()">
+                                    {{'general.buttons.REFUSE' | translate}}
+                                </app-cancel-btn>
+        
+                                <app-submit-btn class="w-full" [disabled]="addresses.invalid">
+                                    {{'general.REGISTRATION' | translate}}
+                                </app-submit-btn>
+        
+                            </div>
+                    
+                        </div>
+
+                    </form>
+
+                </div>
+ 
+            </mat-tab> -->
+       
+
+</app-grid-layout>
+ 

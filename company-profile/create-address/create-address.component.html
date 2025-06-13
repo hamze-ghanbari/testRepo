@@ -1,0 +1,53 @@
+<app-grid-layout [state]="'form'">
+            
+    <form [formGroup]="addressForm" (ngSubmit)="submitAddress()"
+        class="w-full h-full  flex flex-col gap-y-4 md:gap-y-6 
+        justify-between max-w-screen-2xl">
+
+        <div class="h-full bg-neutral-50  rounded-lg md:rounded-xl flex flex-col justify-between">
+
+            <div
+                class="flex flex-col gap-y-4 md:gap-y-5 fixed-layout-height">
+
+                <div class="flex items-center justify-between">
+                    <app-title [title]="(id ? 'general.EDIT_ADDRESS' : 'general.ADD_ADDRESS') | translate"></app-title>
+                </div>
+
+                    <div class="w-full h-fit  bg-neutral-50 grid grid-cols-1 md:grid-cols-2 gap-y-3 md:gap-y-4 md:gap-x-10 rounded-lg md:rounded-xl">
+
+                            <app-auto-complete  formControlName="branchId" [field]="addressForm.controls['branchId'] | formControl"
+                                [config]="{label: 'panel.company_profile.BRANCH', items: branchList, required: true, scrollLoading: branchScrollLoading, initLoading: initBranchLoading, hasError: branchHasError }"
+                                (scroll)="onBranchScroll()" (retry)="retryBranch()" (optionSelected)="optionSelected($event)" (search)="searchBranch($event)"></app-auto-complete>
+
+                            <app-input class="w-full" formControlName="postalCode"
+                                [field]="addressForm.controls['postalCode'] | formControl" 
+                                [config]="{label: 'general.forms.POSTAL_CODE',  required: true}"></app-input>
+                        
+                        <div class="h-auto col-span-full">
+                            <app-text-area class="w-full h-28" formControlName="address"
+                            [config]="{label: 'general.forms.ADDRESS', required: true}"
+                            [field]="addressForm.controls['address'] | formControl"></app-text-area>
+                        </div>
+
+                    </div>
+        </div>
+
+        <div class="w-full flex items-center justify-end gap-x-3 border-t border-t-neutral-300 pt-2 md:pt-3">
+                <app-cancel-btn  (click)="back()">
+                    {{'general.buttons.REFUSE' | translate}}
+                </app-cancel-btn>
+
+                <app-submit-btn class="max-md:w-full" [disabled]="addressForm.invalid || loading">
+                    @if (loading) {
+                        <app-loading></app-loading>
+                        }@else {
+                        {{'general.REGISTRATION' | translate}}
+                        }
+                </app-submit-btn>
+
+            </div>
+ 
+</div>
+    </form>
+
+</app-grid-layout>

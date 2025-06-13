@@ -1,0 +1,17 @@
+
+<div class="w-full h-full flex flex-col p-8">
+
+    <div class="w-full h-72 flex items-center justify-center">
+        <image-cropper class="[&>div]:flex [&>div]:justify-center"
+            [imageFile]="data.image"
+            [roundCropper]="true"
+            [aspectRatio]="(data.width / data.height) / 2"
+            (imageCropped)="imageCropped($event)">
+        </image-cropper>
+    </div>
+
+    <div class="flex items-center gap-x-2 md:gap-x-4 justify-end">
+        <app-cancel-btn  (click)="cancel()">{{'general.buttons.CANCEL' | translate}}</app-cancel-btn>
+        <app-submit-btn class="max-md:w-full" (click)="close()">{{'general.buttons.CONFIRM' | translate}}</app-submit-btn>
+    </div>
+</div>
