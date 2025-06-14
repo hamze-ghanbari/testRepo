@@ -1,0 +1,321 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "../public/styles/core.scss";
+
+@layer base {
+  :root {
+    --color-primary-10: #f5f9ff;
+    --color-primary-50: #f0f6ff;
+    --color-primary-70: #E1EDFE;
+    --color-primary-100: #c3dbfe;
+    --color-primary-200: #91bdfd;
+    --color-primary-300: #559afb;
+    --color-primary-400: #237cfa;
+    --color-primary-500: #0561e6;
+    --color-primary-600: #044cb4;
+    --color-primary-700: #033782;
+    --color-primary-800: #022250;
+    --color-primary-900: #010d1e;
+
+    --color-neutral-50: #FCFCFC;
+    --color-neutral-100: #F7F7F7;
+    --color-neutral-150: #F5F5F5;
+    --color-neutral-170: #F0F0F0;
+    --color-neutral-200: #E6E6E6;
+    --color-neutral-300: #E0E0E0;
+    --color-neutral-350: #C2C2C2;
+    --color-neutral-400: #B3B3B3;
+    --color-neutral-450: #9E9E9E;
+    --color-neutral-500: #808080;
+    --color-neutral-600: #757575;
+    --color-neutral-650: #616161;
+    --color-neutral-700: #4D4D4D;
+    --color-neutral-800: #424242;
+    --color-neutral-900: #212121;
+    --color-neutral-100A: #091E4208;
+    --color-neutral-200A: #091E420F;
+    --color-neutral-300A: #091E4224;
+    --color-neutral-400A: #091E424F;
+    --color-neutral-500A: #091E427D;
+
+    --color-warning-50: #fefce8;
+    --color-warning-100: #fef9c3;
+    --color-warning-200: #fef08a;
+    --color-warning-300: #fde047;
+    --color-warning-400: #facc15;
+    --color-warning-500: #eab308;
+    --color-warning-600: #ca8a04;
+    --color-warning-700: #a16207;
+    --color-warning-800: #854d0e;
+    --color-warning-900: #713f12;
+
+    --color-success-50: #f0fdf4;
+    --color-success-100: #dcfce7;
+    --color-success-200: #bbf7d0;
+    --color-success-300: #86efac;
+    --color-success-400: #4ade80;
+    --color-success-500: #22c55e;
+    --color-success-600: #16a34a;
+    --color-success-700: #15803d;
+    --color-success-800: #166534;
+    --color-success-900: #14532d;
+
+    --color-info-50: #eff6ff;
+    --color-info-100: #dbeafe;
+    --color-info-200: #bfdbfe;
+    --color-info-300: #93c5fd;
+    --color-info-400: #60a5fa;
+    --color-info-500: #3b82f6;
+    --color-info-600: #2563eb;
+    --color-info-700: #1d4ed8;
+    --color-info-800: #1e40af;
+    --color-info-900: #1e3a8a;
+
+    --color-error-10: #fcf3f3;
+    --color-error-50: #f5d7d6;
+    --color-error-100: #ecafac;
+    --color-error-200: #e28783;
+    --color-error-300: #dd736e;
+    --color-error-400: #d85f5a;
+    --color-error-500: #d44b45;
+    --color-error-600: #cf3730;
+    --color-error-700: #ba322b;
+    --color-error-800: #9d2a25;
+    --color-error-900: #741f1b;
+  }
+
+  :root[class~="dark"] {
+    --color-primary-10: #f5f9ff;
+    --color-primary-50: #f0f6ff;
+    --color-primary-100: #c3dbfe;
+    --color-primary-200: #91bdfd;
+    --color-primary-300: #559afb;
+    --color-primary-400: #237cfa;
+    --color-primary-500: #0561e6;
+    --color-primary-600: #044cb4;
+    --color-primary-700: #033782;
+    --color-primary-800: #022250;
+    --color-primary-900: #010d1e;
+
+    --color-neutral-50: #fcfcfc;
+    --color-neutral-150: #eeeff2;
+    --color-neutral-100: #f3f5f7;
+    --color-neutral-200: #e5e7eb;
+    --color-neutral-300: #d2d5da;
+    --color-neutral-400: #9ca3af;
+    --color-neutral-500: #6d7280;
+    --color-neutral-600: #4b5563;
+    --color-neutral-700: #374151;
+    --color-neutral-800: #1f2937;
+    --color-neutral-900: #111827;
+
+    --color-warning-50: #fefce8;
+    --color-warning-100: #fef9c3;
+    --color-warning-200: #fef08a;
+    --color-warning-300: #fde047;
+    --color-warning-400: #facc15;
+    --color-warning-500: #eab308;
+    --color-warning-600: #ca8a04;
+    --color-warning-700: #a16207;
+    --color-warning-800: #854d0e;
+    --color-warning-900: #713f12;
+
+    --color-success-50: #f0fdf4;
+    --color-success-100: #dcfce7;
+    --color-success-200: #bbf7d0;
+    --color-success-300: #86efac;
+    --color-success-400: #4ade80;
+    --color-success-500: #22c55e;
+    --color-success-600: #16a34a;
+    --color-success-700: #15803d;
+    --color-success-800: #166534;
+    --color-success-900: #14532d;
+
+    --color-info-50: #eff6ff;
+    --color-info-100: #dbeafe;
+    --color-info-200: #bfdbfe;
+    --color-info-300: #93c5fd;
+    --color-info-400: #60a5fa;
+    --color-info-500: #3b82f6;
+    --color-info-600: #2563eb;
+    --color-info-700: #1d4ed8;
+    --color-info-800: #1e40af;
+    --color-info-900: #1e3a8a;
+
+    --color-error-10: #fcf3f3;
+    --color-error-50: #f5d7d6;
+    --color-error-100: #ecafac;
+    --color-error-200: #e28783;
+    --color-error-300: #dd736e;
+    --color-error-400: #d85f5a;
+    --color-error-500: #d44b45;
+    --color-error-600: #cf3730;
+    --color-error-700: #ba322b;
+    --color-error-800: #9d2a25;
+    --color-error-900: #741f1b;
+  }
+
+  @font-face {
+    font-family: "iranyekanwebregularfanum";
+    src: url("../public/fonts/iranyekanwebregularfanum.ttf") format("truetype");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "iranyekanwebmediumfanum";
+    src: url("../public/fonts/iranyekanwebmediumfanum.ttf") format("truetype");
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: "iranyekanwebboldfanum";
+    src: url("../public/fonts/iranyekanwebboldfanum.ttf") format("truetype");
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: "IRANYekanMobileRegular";
+    src: url("../public/fonts/IRANYekanMobileRegular.ttf") format("truetype");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "IRANYekanMobileMedium";
+    src: url("../public/fonts/IRANYekanMobileMedium.ttf") format("truetype");
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: "IRANYekanMobileBold";
+    src: url("../public/fonts/IRANYekanMobileBold.ttf") format("truetype");
+    font-display: swap;
+  }
+
+  .mat-typography {
+    font:
+      400 1rem / 1.5rem Roboto,
+      sans-serif;
+    letter-spacing: 0.031rem;
+  }
+
+  body[dir="ltr"] {
+    // *{
+    @apply mat-typography;
+    // }
+  }
+  // *:not(mat-icon) {
+  body[dir="rtl"] {
+    *:not(mat-icon) {
+      @apply font-mobileFaRegular md:font-desktopFaRegular;
+      .font-medium {
+        @apply font-mobileFaMedium md:font-desktopFaMedium;
+      }
+      .font-bold {
+        @apply font-mobileFaBold md:font-desktopFaBold;
+      }
+    }
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="radio"]:checked {
+    accent-color: var(--color-primary-500);
+  }
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    &:checked {
+      accent-color: var(--color-primary-500);
+    }
+  }
+}
+
+$desktop-header-height: 44;
+$mobile-header-height: 40;
+$desktop-outer-layout-padding-top: 16;
+$mobile-outer-layout-padding-top: $desktop-outer-layout-padding-top;
+$desktop-outer-layout-grid-padding-top: 12; 
+$mobile-outer-layout-grid-padding-top: 8;
+$desktop-outer-layout-padding-bottom: $desktop-outer-layout-padding-top;
+$mobile-outer-layout-padding-bottom: $desktop-outer-layout-padding-bottom;
+$desktop-outer-layout-grid-padding-bottom: $desktop-outer-layout-grid-padding-top; 
+$mobile-outer-layout-grid-padding-bottom: $mobile-outer-layout-grid-padding-top;
+$desktop-inner-layout-padding-top: 20; 
+$mobile-inner-layout-padding-top: 12;
+$desktop-inner-layout-grid-padding-top: 12; 
+$mobile-inner-layout-grid-padding-top: 8;
+$desktop-inner-layout-padding-bottom: 20; 
+$mobile-inner-layout-padding-bottom: 12;
+$desktop-inner-layout-grid-padding-bottom: 12; 
+$mobile-inner-layout-grid-padding-bottom: 8;
+
+@layer components {
+  .fixed-layout-height{
+    @apply 
+    overflow-y-auto scrollbar-none;
+  }
+
+  .border-detail {
+    @apply border border-neutral-200A;
+  }
+  
+}
+
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: var(--color-neutral-400);
+    visibility: hidden;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--color-neutral-300);
+    border-radius: 100vh;
+    cursor: grab;
+    /* visibility: hidden; */
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--color-neutral-400);
+    visibility: visible;
+  }
+}
+
+.ag-row-odd {
+  --ag-odd-row-background-color: var(--color-neutral-100);
+}
+
+.ag-paging-row-summary-panel {
+  @apply hidden;
+}
+
+
+
+@media screen and (min-width: 768px) {
+  .shadow-md-auth{
+      box-shadow: 6px -6px 8px 0px rgba(244, 244, 244, 0.64), -8px 8px 6px 0px rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(4px);
+        }
+  }
+  @media screen and (max-width: 768px) {
+  .shadow-sm-auth{
+      box-shadow: 3px -3px 4px 0px rgba(244, 244, 244, 0.64), -4px 4px 3px 0px rgba(0, 0, 0, 0.16);
+      backdrop-filter: blur(4px);
+        }
+  }
